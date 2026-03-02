@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Nest | Modern Co-Living</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --bg-light: #f9fafb;
+            --white: #ffffff;
+            --border: #e5e7eb;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--white); color: var(--text-main); line-height: 1.6; }
+
+        /* --- Reusable Components --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+        .btn { padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.3s; border: none; text-decoration: none; display: inline-block; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text-main); }
+        .btn-outline:hover { background: var(--bg-light); }
+        
+        /* Placeholder Box Style */
+        .img-placeholder {
+            width: 100%;
+            background: var(--bg-light);
+            border: 2px dashed var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: var(--radius);
+        }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%; height: 70px;
+            display: flex; align-items: center;
+            z-index: 1000; transition: 0.3s;
+            border-bottom: 1px solid transparent;
+        }
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-content {
+            display: flex; justify-content: space-between; align-items: center; width: 100%;
+        }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); }
+        .nav-links { display: none; gap: 32px; }
+        .nav-links a { text-decoration: none; color: var(--text-main); font-weight: 500; font-size: 0.95rem; }
+
+        @media (min-width: 768px) { .nav-links { display: flex; } }
+
+        /* --- Hero --- */
+        .hero {
+            padding: 140px 0 80px;
+            text-align: center;
+            background: radial-gradient(circle at top right, #eff6ff, transparent);
+        }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 4rem); line-height: 1.1; margin-bottom: 20px; letter-spacing: -0.02em; }
+        .hero p { font-size: 1.25rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 32px; }
+        .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+        /* --- Sections --- */
+        section { padding: 100px 0; opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+        section.visible { opacity: 1; transform: translateY(0); }
+        .section-title { margin-bottom: 48px; text-align: center; }
+        .section-title h2 { font-size: 2.25rem; margin-bottom: 12px; }
+
+        /* --- Rooms Tabs --- */
+        .tabs-header { display: flex; justify-content: center; gap: 12px; margin-bottom: 40px; }
+        .tab-btn { padding: 8px 20px; border: 1px solid var(--border); background: white; border-radius: 20px; cursor: pointer; font-weight: 600; }
+        .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .room-content { display: none; }
+        .room-content.active { display: grid; grid-template-columns: 1fr; gap: 32px; align-items: center; }
+        @media (min-width: 768px) { .room-content.active { grid-template-columns: 1.2fr 1fr; } }
+        .room-card-img { height: 350px; }
+        .room-details h3 { font-size: 2rem; margin-bottom: 16px; }
+        .features { list-style: none; margin: 20px 0; }
+        .features li::before { content: "✓"; color: var(--primary); margin-right: 10px; font-weight: bold; }
+        .price { font-size: 1.5rem; font-weight: 700; margin-bottom: 24px; color: var(--primary); }
+
+        /* --- Amenities Grid --- */
+        .amenities-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 24px; }
+        .amenity-item { padding: 32px; text-align: center; border: 1px solid var(--border); border-radius: var(--radius); transition: 0.3s; }
+        .amenity-item:hover { border-color: var(--primary); box-shadow: var(--shadow); }
+        .amenity-icon { font-size: 2rem; margin-bottom: 12px; display: block; }
+
+        /* --- Gallery --- */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+        .gallery-item { height: 250px; transition: 0.3s transform; }
+        .gallery-item:hover { transform: scale(1.02); }
+
+        /* --- Location & Contact --- */
+        .contact-layout { display: grid; grid-template-columns: 1fr; gap: 40px; }
+        @media (min-width: 768px) { .contact-layout { grid-template-columns: 1fr 1fr; } }
+        .map-box { height: 300px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
+        .contact-form { display: grid; gap: 16px; }
+        .contact-form input, .contact-form textarea { padding: 12px; border: 1px solid var(--border); border-radius: 8px; width: 100%; }
+
+        /* --- Floating WhatsApp --- */
+        .wa-float { 
+            position: fixed; bottom: 30px; right: 30px; 
+            background: #25d366; color: white; width: 60px; height: 60px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2); font-size: 1.5rem; z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="https://wa.me/#" class="wa-float">💬</a>
+
+    <nav id="navbar">
+        <div class="container nav-content">
+            <div class="logo">The Nest</div>
+            <div class="nav-links">
+                <a href="#rooms">Rooms</a>
+                <a href="#amenities">Amenities</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#location">Location</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <a href="#contact" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.9rem;">Enquire Now</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <h1>Stay Smarter. <br> Live Better.</h1>
+            <p>Premium co-living spaces designed for modern professionals and students. Comfort, community, and convenience—all under one roof.</p>
+            <div class="hero-btns">
+                <a href="#rooms" class="btn btn-primary">View Rooms</a>
+                <a href="#" class="btn btn-outline">WhatsApp Chat</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="rooms">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Rooms</h2>
+                <p>Choose the space that fits your lifestyle.</p>
+            </div>
+            
+            <div class="tabs-header">
+                <button class="tab-btn active" onclick="showRoom('single')">Single</button>
+                <button class="tab-btn" onclick="showRoom('double')">Double</button>
+                <button class="tab-btn" onclick="showRoom('triple')">Triple</button>
+            </div>
+
+            <div id="single" class="room-content active">
+                <div class="img-placeholder room-card-img">ROOM PHOTO: SINGLE OCCUPANCY</div>
+                <div class="room-details">
+                    <h3>The Private Sanctuary</h3>
+                    <p>Perfect for those who value absolute privacy and a quiet work environment.</p>
+                    <ul class="features">
+                        <li>Attached Washroom</li>
+                        <li>Dedicated Work Desk</li>
+                        <li>Air Conditioning</li>
+                    </ul>
+                    <div class="price">₹18,000 / month</div>
+                    <button class="btn btn-primary">Book via WhatsApp</button>
+                </div>
+            </div>
+
+            <div id="double" class="room-content">
+                <div class="img-placeholder room-card-img">ROOM PHOTO: DOUBLE SHARING</div>
+                <div class="room-details">
+                    <h3>The Shared Classic</h3>
+                    <p>Spacious shared living with individual storage and a collaborative vibe.</p>
+                    <ul class="features">
+                        <li>Twin Beds</li>
+                        <li>Private Balcony Access</li>
+                        <li>Individual Closets</li>
+                    </ul>
+                    <div class="price">₹12,000 / month</div>
+                    <button class="btn btn-primary">Book via WhatsApp</button>
+                </div>
+            </div>
+
+            <div id="triple" class="room-content">
+                <div class="img-placeholder room-card-img">ROOM PHOTO: TRIPLE SHARING</div>
+                <div class="room-details">
+                    <h3>The Social Hub</h3>
+                    <p>Economical and social. Great for students looking for a community experience.</p>
+                    <ul class="features">
+                        <li>Modern Bunk Options</li>
+                        <li>High-Speed WiFi</li>
+                        <li>Shared Lounge Area</li>
+                    </ul>
+                    <div class="price">₹8,500 / month</div>
+                    <button class="btn btn-primary">Book via WhatsApp</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="amenities" style="background: var(--bg-light);">
+        <div class="container">
+            <div class="section-title">
+                <h2>Modern Amenities</h2>
+                <p>Everything you need to focus on what matters.</p>
+            </div>
+            <div class="amenities-grid">
+                <div class="amenity-item"><span class="amenity-icon">📶</span><strong>Fast WiFi</strong></div>
+                <div class="amenity-item"><span class="amenity-icon">🧺</span><strong>Laundry</strong></div>
+                <div class="amenity-item"><span class="amenity-icon">🍱</span><strong>Daily Food</strong></div>
+                <div class="amenity-item"><span class="amenity-icon">🛡️</span><strong>24/7 Security</strong></div>
+                <div class="amenity-item"><span class="amenity-icon">🧹</span><strong>Housekeeping</strong></div>
+                <div class="amenity-item"><span class="amenity-icon">🚗</span><strong>Parking</strong></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery">
+        <div class="container">
+            <div class="section-title">
+                <h2>Property Gallery</h2>
+            </div>
+            <div class="gallery-grid">
+                <div class="img-placeholder gallery-item">GALLERY IMAGE: LOBBY</div>
+                <div class="img-placeholder gallery-item">GALLERY IMAGE: DINING</div>
+                <div class="img-placeholder gallery-item">GALLERY IMAGE: EXTERIOR</div>
+                <div class="img-placeholder gallery-item">GALLERY IMAGE: TERRACE</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="location">
+        <div class="container">
+            <div class="section-title">
+                <h2>Where we are</h2>
+            </div>
+            <div class="contact-layout">
+                <div class="map-box">
+                    <div class="img-placeholder" style="height: 100%;">GOOGLE MAPS IFRAME PLACEHOLDER</div>
+                </div>
+                <div>
+                    <h3>Nearby Landmarks</h3>
+                    <ul class="features" style="margin-top: 20px;">
+                        <li>Metro Station - 5 mins walk</li>
+                        <li>Shopping Mall - 10 mins walk</li>
+                        <li>City Hospital - 2 mins drive</li>
+                        <li>Business Park - 15 mins walk</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" style="background: var(--text-main); color: white;">
+        <div class="container">
+            <div class="contact-layout">
+                <div>
+                    <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Get in touch</h2>
+                    <p style="color: #9ca3af; margin-bottom: 30px;">Have questions? Our team is here to help you find your next home.</p>
+                    <p>📍 123 Nest Lane, Silicon Valley, CA</p>
+                    <p>📞 +91 98765 43210</p>
+                    <p>✉️ hello@thenest.com</p>
+                </div>
+                <form class="contact-form">
+                    <input type="text" placeholder="Your Name">
+                    <input type="email" placeholder="Email Address">
+                    <textarea rows="4" placeholder="Your Message"></textarea>
+                    <button class="btn btn-primary">Send Inquiry</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Scroll Effect for Navbar
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+
+        // Tab Logic
+        function showRoom(type) {
+            document.querySelectorAll('.room-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(type).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Scroll Animations
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

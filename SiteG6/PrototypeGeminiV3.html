@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Nest | Premium Living</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #FBFBFA;
+            --text-main: #1A1A1A;
+            --text-muted: #707070;
+            --accent: #E5E5E2;
+            --border: #EEEEEE;
+            --white: #FFFFFF;
+            /* Spacing Scale */
+            --space-xs: 20px;
+            --space-s: 40px;
+            --space-m: 80px;
+            --space-l: 140px;
+            --transition: all 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--text-main);
+            background-color: var(--bg-color);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 var(--space-xs);
+        }
+
+        /* Spacing Fixes */
+        section {
+            padding: var(--space-l) 0; /* Significant vertical breathing room */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            margin-bottom: var(--space-m);
+            max-width: 600px;
+        }
+
+        .section-header h2 {
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 15px;
+        }
+
+        /* Placeholder Box System */
+        .placeholder-box {
+            border: 1px solid var(--border);
+            background: #F4F4F2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            color: #A0A0A0;
+            width: 100%;
+            aspect-ratio: 16/10;
+        }
+
+        /* Sticky Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(251, 251, 250, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-content {
+            height: 90px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 500;
+            font-size: 22px;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-s);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 15px;
+            font-weight: 400;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover { opacity: 0.5; }
+
+        /* Hero Section */
+        .hero {
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-top: 90px;
+        }
+
+        .hero h1 {
+            font-size: clamp(48px, 6vw, 84px);
+            font-weight: 300;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 30px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--text-muted);
+            max-width: 550px;
+            margin-bottom: var(--space-s);
+        }
+
+        /* CTA Button */
+        .btn {
+            display: inline-block;
+            padding: 18px 44px;
+            background: var(--text-main);
+            color: var(--white);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Rooms - Tabbed Spacing */
+        .tabs {
+            display: flex;
+            gap: 30px;
+            margin-bottom: var(--space-m);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 15px 0;
+            font-family: inherit;
+            font-size: 15px;
+            cursor: pointer;
+            color: var(--text-muted);
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: var(--text-main);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--text-main);
+        }
+
+        .room-content {
+            display: none;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .room-content.active { display: grid; }
+
+        .room-info h3 { font-size: 38px; font-weight: 400; margin-bottom: 20px; }
+        
+        .features-list { list-style: none; margin: 30px 0; }
+        .features-list li { 
+            padding: 12px 0; 
+            border-bottom: 1px solid var(--border); 
+            color: var(--text-muted); 
+            font-size: 16px;
+        }
+
+        .price { font-size: 32px; font-weight: 300; margin-bottom: 40px; }
+
+        /* Amenities Grid */
+        .amenities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+
+        .amenity-card {
+            padding: 60px 40px;
+            background: var(--white);
+        }
+
+        .amenity-card h4 { margin-bottom: 15px; font-weight: 500; }
+        .amenity-card p { font-size: 16px; color: var(--text-muted); }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+        }
+        .gallery-item:nth-child(1) { grid-column: span 8; }
+        .gallery-item:nth-child(2) { grid-column: span 4; }
+        .gallery-item:nth-child(3) { grid-column: span 4; }
+        .gallery-item:nth-child(4) { grid-column: span 8; }
+
+        /* Contact & Form */
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-m);
+        }
+
+        .input-group { margin-bottom: 30px; }
+        label { display: block; font-size: 13px; text-transform: uppercase; margin-bottom: 10px; opacity: 0.6; }
+        
+        input, textarea {
+            width: 100%;
+            padding: 15px 0;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            background: transparent;
+            font-family: inherit;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus { border-bottom-color: var(--text-main); }
+
+        /* Mobile Adjustments */
+        @media (max-width: 900px) {
+            :root { --space-l: 80px; --space-m: 40px; }
+            .nav-links { display: none; }
+            .room-content, .contact-layout { grid-template-columns: 1fr; gap: 40px; }
+            .gallery-item:nth-child(n) { grid-column: span 12; }
+            .hero h1 { font-size: 44px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-content">
+            <div class="logo">THE NEST</div>
+            <div class="nav-links">
+                <a href="#rooms">Rooms</a>
+                <a href="#amenities">Amenities</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="hero visible">
+            <h1>Living, <br>Simplified.</h1>
+            <p>A refined co-living experience designed for the modern minimalist. High-end finishes meet functional design in the heart of the city.</p>
+            <div><a href="#rooms" class="btn">View Spaces</a></div>
+        </section>
+
+        <section id="rooms">
+            <div class="section-header">
+                <h2>Our Rooms</h2>
+                <p>Thoughtfully curated spaces tailored for individual focus or shared community.</p>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openTab(event, 'single')">01. Single</button>
+                <button class="tab-btn" onclick="openTab(event, 'double')">02. Double</button>
+                <button class="tab-btn" onclick="openTab(event, 'triple')">03. Triple</button>
+            </div>
+
+            <div id="single" class="room-content active">
+                <div class="placeholder-box">ROOM_SINGLE_01</div>
+                <div class="room-info">
+                    <h3>Private Suite</h3>
+                    <ul class="features-list">
+                        <li>King Size Bed</li>
+                        <li>Dedicated Workspace</li>
+                        <li>Private En-suite</li>
+                        <li>Climate Control</li>
+                    </ul>
+                    <div class="price">$1,200 <span style="font-size: 14px; opacity: 0.5;">/ month</span></div>
+                    <a href="#" class="btn">Book via WhatsApp</a>
+                </div>
+            </div>
+
+            <div id="double" class="room-content">
+                <div class="placeholder-box">ROOM_DOUBLE_01</div>
+                <div class="room-info">
+                    <h3>Shared Studio</h3>
+                    <ul class="features-list">
+                        <li>Dual Ergonomic Beds</li>
+                        <li>Partitioned Privacy</li>
+                        <li>En-suite Bathroom</li>
+                        <li>Bi-weekly Housekeeping</li>
+                    </ul>
+                    <div class="price">$750 <span style="font-size: 14px; opacity: 0.5;">/ month</span></div>
+                    <a href="#" class="btn">Book via WhatsApp</a>
+                </div>
+            </div>
+
+            <div id="triple" class="room-content">
+                <div class="placeholder-box">ROOM_TRIPLE_01</div>
+                <div class="room-info">
+                    <h3>Loft Collective</h3>
+                    <ul class="features-list">
+                        <li>Triple Smart-Bunks</li>
+                        <li>Large Social Lounge</li>
+                        <li>Communal Kitchen Access</li>
+                        <li>All-inclusive Utilities</li>
+                    </ul>
+                    <div class="price">$500 <span style="font-size: 14px; opacity: 0.5;">/ month</span></div>
+                    <a href="#" class="btn">Book via WhatsApp</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="amenities">
+            <div class="section-header">
+                <h2>Modern Essentials</h2>
+                <p>Everything you need to live, work, and grow without the clutter.</p>
+            </div>
+            <div class="amenities-grid">
+                <div class="amenity-card">
+                    <h4>High-speed Web</h4>
+                    <p>Fiber optic infrastructure with 99.9% uptime.</p>
+                </div>
+                <div class="amenity-card">
+                    <h4>Concierge</h4>
+                    <p>On-site management to handle all your daily logistics.</p>
+                </div>
+                <div class="amenity-card">
+                    <h4>Fitness Hub</h4>
+                    <p>Minimalist gym with premium cardio and strength gear.</p>
+                </div>
+                <div class="amenity-card">
+                    <h4>Smart Security</h4>
+                    <p>Keyless entry and 24/7 digital monitoring.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery">
+            <div class="section-header">
+                <h2>The Space</h2>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item placeholder-box">COMMON_AREA_01</div>
+                <div class="gallery-item placeholder-box">READING_NOOK</div>
+                <div class="gallery-item placeholder-box">ROOFTOP_DECK</div>
+                <div class="gallery-item placeholder-box">EXTERIOR_FACADE</div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="contact-layout">
+                <div>
+                    <h2>Let's Connect</h2>
+                    <p style="margin-bottom: 40px; color: var(--text-muted);">Schedule a physical tour or virtual walk-through of the property.</p>
+                    <div style="font-size: 16px;">
+                        <p style="margin-bottom: 10px;"><strong>T:</strong> +1 800 NEST LIVE</p>
+                        <p><strong>E:</strong> concierge@thenest.co</p>
+                    </div>
+                </div>
+                <form>
+                    <div class="input-group">
+                        <label>Name</label>
+                        <input type="text">
+                    </div>
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <input type="email">
+                    </div>
+                    <div class="input-group">
+                        <label>Interested In</label>
+                        <input type="text" placeholder="e.g. Single Suite">
+                    </div>
+                    <button type="submit" class="btn">Inquire Now</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <footer style="padding: 60px 0; border-top: 1px solid var(--border); text-align: center;">
+        <p style="font-size: 13px; letter-spacing: 0.1em; opacity: 0.5;">&copy; 2026 THE NEST COLLECTIONS. MINIMALISM IS FREEDOM.</p>
+    </footer>
+
+    <script>
+        // Tab Handler
+        function openTab(evt, tabName) {
+            const contents = document.querySelectorAll(".room-content");
+            contents.forEach(content => content.classList.remove("active"));
+            
+            const btns = document.querySelectorAll(".tab-btn");
+            btns.forEach(btn => btn.classList.remove("active"));
+
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Intersection Observer for subtle fade-in
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

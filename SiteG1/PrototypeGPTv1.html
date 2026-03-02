@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>The Nest | Premium PG</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+/* GLOBAL */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Outfit',sans-serif;
+background:#FFF7ED;
+color:#111827;
+line-height:1.6;
+font-size:18px;
+}
+
+.container{
+max-width:1150px;
+margin:auto;
+padding:0 20px;
+}
+
+section{
+padding:90px 0;
+}
+
+h1,h2,h3{
+font-weight:800;
+}
+
+p{
+color:#4B5563;
+}
+
+/* NAVBAR */
+
+header{
+position:fixed;
+top:0;
+width:100%;
+z-index:1000;
+animation:navFade 1s ease;
+transition:0.4s;
+}
+
+@keyframes navFade{
+from{
+opacity:0;
+transform:translateY(-10px);
+}
+to{
+opacity:1;
+transform:none;
+}
+}
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+max-width:1100px;
+margin:auto;
+padding:10px 18px;
+border-radius:14px;
+}
+
+.logo{
+font-size:20px;
+font-weight:800;
+white-space:nowrap;
+color:white;
+}
+
+.nav-links{
+display:flex;
+gap:18px;
+}
+
+.nav-links a{
+text-decoration:none;
+color:white;
+font-weight:600;
+font-size:14px;
+}
+
+/* GLASS EFFECT */
+
+.scrolled{
+background:rgba(255,255,255,0.35);
+backdrop-filter:blur(16px);
+box-shadow:0 8px 25px rgba(0,0,0,0.15);
+border:1px solid rgba(255,255,255,0.3);
+}
+
+.scrolled .logo,
+.scrolled a{
+color:#1F2937;
+}
+
+/* HERO */
+
+.hero{
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+background:linear-gradient(135deg,#FFF7ED,#FDBA74);
+color:white;
+padding:0 20px;
+}
+
+.hero-content{
+max-width:650px;
+animation:fadeUp 1.2s ease;
+}
+
+.hero h1{
+font-size:52px;
+margin-bottom:14px;
+}
+
+.hero p{
+font-size:20px;
+color:#374151;
+}
+
+.cta{
+display:inline-block;
+margin-top:30px;
+padding:16px 34px;
+background:white;
+color:#F97316;
+border-radius:14px;
+font-weight:700;
+text-decoration:none;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+transition:0.3s;
+}
+
+.cta:hover{
+transform:translateY(-4px) scale(1.03);
+}
+
+/* TABS */
+
+.tabs{
+display:flex;
+gap:12px;
+margin-bottom:24px;
+flex-wrap:wrap;
+}
+
+.tab{
+padding:10px 20px;
+background:#eee;
+border-radius:25px;
+cursor:pointer;
+font-weight:600;
+transition:0.25s;
+}
+
+.tab.active{
+background:#F97316;
+color:white;
+}
+
+/* ROOM CARD */
+
+.card{
+background:white;
+border-radius:22px;
+padding:30px;
+box-shadow:0 20px 60px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+}
+
+.room{
+display:none;
+animation:fadeUp 0.6s ease;
+}
+
+.room.active{
+display:block;
+}
+
+/* IMAGE PLACEHOLDER */
+
+.placeholder{
+height:230px;
+border:2px dashed #ddd;
+border-radius:14px;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#9CA3AF;
+margin-bottom:16px;
+font-weight:600;
+}
+
+/* FEATURES */
+
+.features{
+margin:12px 0;
+padding-left:18px;
+}
+
+.features li{
+margin-bottom:6px;
+}
+
+/* WHATSAPP BUTTON */
+
+.whatsapp-btn{
+display:inline-block;
+margin-top:12px;
+padding:12px 18px;
+background:#25D366;
+color:white;
+border-radius:10px;
+text-decoration:none;
+font-weight:600;
+}
+
+/* AMENITIES */
+
+.amenities{
+background:#FDEAD7;
+}
+
+.amenities-grid{
+display:grid;
+gap:22px;
+margin-top:30px;
+}
+
+.amenity{
+background:white;
+border-radius:20px;
+padding:20px;
+display:flex;
+gap:14px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+transition:0.25s;
+}
+
+.amenity:hover{
+transform:translateY(-5px);
+}
+
+.icon-box{
+width:50px;
+height:50px;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:linear-gradient(135deg,#FCD34D,#F97316);
+font-size:20px;
+color:white;
+}
+
+/* GALLERY */
+
+.gallery{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+margin-top:25px;
+}
+
+.gallery .placeholder{
+height:190px;
+transition:0.3s;
+}
+
+.gallery .placeholder:hover{
+transform:scale(1.05) rotate(1deg);
+}
+
+/* CONTACT */
+
+.contact-grid{
+display:grid;
+gap:25px;
+margin-top:20px;
+}
+
+input,textarea{
+width:100%;
+padding:14px;
+border-radius:10px;
+border:1px solid #ddd;
+margin-bottom:12px;
+font-size:16px;
+}
+
+button{
+background:#F97316;
+color:white;
+border:none;
+padding:14px;
+border-radius:10px;
+cursor:pointer;
+font-weight:700;
+}
+
+.map iframe{
+width:100%;
+height:320px;
+border:none;
+border-radius:14px;
+}
+
+/* FLOAT WHATSAPP */
+
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+color:white;
+font-size:26px;
+padding:16px;
+border-radius:50%;
+box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* FADE ANIMATIONS */
+
+.fade{
+opacity:0;
+transform:translateY(40px);
+transition:0.8s;
+}
+
+.fade.show{
+opacity:1;
+transform:none;
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:none;
+}
+}
+
+/* RESPONSIVE */
+
+@media(min-width:750px){
+
+.hero h1{
+font-size:68px;
+}
+
+.gallery{
+grid-template-columns:repeat(3,1fr);
+}
+
+.amenities-grid{
+grid-template-columns:repeat(2,1fr);
+}
+
+.contact-grid{
+grid-template-columns:1fr 1fr;
+}
+
+}
+
+@media(min-width:1050px){
+
+.gallery{
+grid-template-columns:repeat(4,1fr);
+}
+
+.amenities-grid{
+grid-template-columns:repeat(3,1fr);
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header id="header">
+
+<div class="navbar">
+
+<div class="logo">The Nest</div>
+
+<div class="nav-links">
+<a href="#rooms">Rooms</a>
+<a href="#gallery">Gallery</a>
+<a href="#contact">Contact</a>
+</div>
+
+</div>
+
+</header>
+
+<section class="hero">
+
+<div class="hero-content">
+
+<h1>Luxury Living, Simplified</h1>
+
+<p>Premium PG designed for comfort, safety and community.</p>
+
+<a href="#rooms" class="cta">Explore Rooms</a>
+
+</div>
+
+</section>
+
+<section id="rooms" class="fade">
+
+<div class="container">
+
+<h2>Rooms</h2>
+
+<div class="tabs">
+<div class="tab active" data-tab="single">Single</div>
+<div class="tab" data-tab="double">Double</div>
+<div class="tab" data-tab="triple">Triple</div>
+</div>
+
+<div class="card">
+
+<div id="single" class="room active">
+
+<div class="placeholder">ROOM IMAGE</div>
+
+<h3>Single Room</h3>
+
+<ul class="features">
+<li>Private sleeping space</li>
+<li>Study table and chair</li>
+<li>Wardrobe storage</li>
+<li>High-speed WiFi</li>
+<li>Housekeeping included</li>
+</ul>
+
+<p><b>₹12,000 / month</b></p>
+
+<a class="whatsapp-btn" href="https://wa.me/919046979236">Check Availability</a>
+
+</div>
+
+<div id="double" class="room">
+
+<div class="placeholder">ROOM IMAGE</div>
+
+<h3>Double Sharing</h3>
+
+<ul class="features">
+<li>Two separate beds</li>
+<li>Study desks</li>
+<li>Wardrobe storage</li>
+<li>High-speed WiFi</li>
+<li>Housekeeping included</li>
+</ul>
+
+<p><b>₹8,500 / month</b></p>
+
+<a class="whatsapp-btn" href="https://wa.me/919046979236">Check Availability</a>
+
+</div>
+
+<div id="triple" class="room">
+
+<div class="placeholder">ROOM IMAGE</div>
+
+<h3>Triple Sharing</h3>
+
+<ul class="features">
+<li>Three comfortable beds</li>
+<li>Shared study area</li>
+<li>Wardrobe storage</li>
+<li>High-speed WiFi</li>
+<li>Housekeeping included</li>
+</ul>
+
+<p><b>₹6,500 / month</b></p>
+
+<a class="whatsapp-btn" href="https://wa.me/919046979236">Check Availability</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="amenities fade">
+
+<div class="container">
+
+<h2>Amenities that matter</h2>
+
+<div class="amenities-grid">
+
+<div class="amenity">
+<div class="icon-box">🏠</div>
+<div>
+<h3>Fully Furnished</h3>
+<p>Beds, wardrobes and study desks.</p>
+</div>
+</div>
+
+<div class="amenity">
+<div class="icon-box">❄️</div>
+<div>
+<h3>AC / Airy Rooms</h3>
+<p>Comfortable ventilated rooms.</p>
+</div>
+</div>
+
+<div class="amenity">
+<div class="icon-box">📶</div>
+<div>
+<h3>High-Speed WiFi</h3>
+<p>Reliable internet connection.</p>
+</div>
+</div>
+
+<div class="amenity">
+<div class="icon-box">🍽️</div>
+<div>
+<h3>Homely Meals</h3>
+<p>Healthy vegetarian & non-veg meals.</p>
+</div>
+</div>
+
+<div class="amenity">
+<div class="icon-box">🧹</div>
+<div>
+<h3>Daily Housekeeping</h3>
+<p>Clean and hygienic rooms.</p>
+</div>
+</div>
+
+<div class="amenity">
+<div class="icon-box">🛡️</div>
+<div>
+<h3>24×7 Security</h3>
+<p>CCTV monitoring and safe premises.</p>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="gallery" class="fade">
+
+<div class="container">
+
+<h2>Gallery</h2>
+
+<div class="gallery">
+
+<div class="placeholder">IMAGE</div>
+<div class="placeholder">IMAGE</div>
+<div class="placeholder">IMAGE</div>
+<div class="placeholder">IMAGE</div>
+<div class="placeholder">IMAGE</div>
+<div class="placeholder">IMAGE</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="fade">
+
+<div class="container">
+
+<h2>Location</h2>
+
+<div class="map">
+
+<iframe src="https://maps.google.com/maps?q=kolkata&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="contact" class="fade">
+
+<div class="container">
+
+<h2>Contact</h2>
+
+<div class="contact-grid">
+
+<div class="card">
+
+<p><i class="fas fa-phone"></i> +91 9046979236</p>
+<p><i class="fas fa-map-marker-alt"></i> Kolkata</p>
+<p><i class="fas fa-envelope"></i> info@thenestpg.com</p>
+
+</div>
+
+<div class="card">
+
+<form>
+
+<input type="text" placeholder="Name">
+<input type="email" placeholder="Email">
+<textarea rows="4" placeholder="Message"></textarea>
+
+<button>Send Inquiry</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<a class="whatsapp" href="https://wa.me/919046979236">
+<i class="fab fa-whatsapp"></i>
+</a>
+
+<script>
+
+window.addEventListener("scroll",()=>{
+document.getElementById("header").classList.toggle("scrolled",window.scrollY>30)
+})
+
+const tabs=document.querySelectorAll(".tab")
+const rooms=document.querySelectorAll(".room")
+
+tabs.forEach(tab=>{
+tab.onclick=()=>{
+tabs.forEach(t=>t.classList.remove("active"))
+rooms.forEach(r=>r.classList.remove("active"))
+tab.classList.add("active")
+document.getElementById(tab.dataset.tab).classList.add("active")
+}
+})
+
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add("show")
+}
+})
+})
+
+document.querySelectorAll(".fade").forEach(el=>observer.observe(el))
+
+</script>
+
+</body>
+</html>

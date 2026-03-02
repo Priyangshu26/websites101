@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Nest PG</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+}
+
+body{
+background:#fafafa;
+color:#111;
+line-height:1.6;
+}
+
+/* SECTION SPACING */
+
+section{
+padding:80px 20px;
+max-width:1100px;
+margin:auto;
+}
+
+h1{
+font-size:2.6rem;
+font-weight:800;
+}
+
+h2{
+font-size:2rem;
+font-weight:800;
+margin-bottom:30px;
+}
+
+p{
+color:#555;
+}
+
+/* BUTTONS */
+
+button{
+cursor:pointer;
+border:none;
+border-radius:10px;
+padding:12px 22px;
+font-size:15px;
+}
+
+.primary{
+background:#111;
+color:white;
+}
+
+.secondary{
+background:#25D366;
+color:white;
+}
+
+/* PLACEHOLDER BOX */
+
+.placeholder{
+border:2px dashed #ddd;
+height:220px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:10px;
+color:#999;
+font-weight:600;
+margin-bottom:15px;
+}
+
+/* NAVBAR */
+
+nav{
+position:fixed;
+top:0;
+left:0;
+right:0;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:16px 22px;
+z-index:100;
+transition:all .3s;
+}
+
+nav.blur{
+backdrop-filter:blur(10px);
+background:rgba(255,255,255,0.75);
+box-shadow:0 5px 15px rgba(0,0,0,0.05);
+}
+
+.logo{
+font-weight:800;
+font-size:20px;
+white-space:nowrap;
+}
+
+.nav-links{
+display:flex;
+list-style:none;
+gap:22px;
+}
+
+.nav-links a{
+text-decoration:none;
+color:#111;
+font-weight:500;
+}
+
+.menu-toggle{
+display:none;
+font-size:26px;
+cursor:pointer;
+}
+
+/* MOBILE NAV */
+
+@media (max-width:768px){
+
+.menu-toggle{
+display:block;
+}
+
+.nav-links{
+position:absolute;
+top:65px;
+left:0;
+right:0;
+background:white;
+flex-direction:column;
+align-items:center;
+padding:20px;
+display:none;
+box-shadow:0 10px 20px rgba(0,0,0,0.08);
+}
+
+.nav-links.active{
+display:flex;
+}
+
+}
+
+/* HERO */
+
+.hero{
+padding-top:120px;
+text-align:center;
+}
+
+.hero p{
+margin:20px auto;
+max-width:500px;
+}
+
+.cta{
+display:flex;
+gap:15px;
+justify-content:center;
+flex-wrap:wrap;
+margin-top:25px;
+}
+
+/* ROOMS */
+
+.tabs{
+display:flex;
+gap:10px;
+margin-bottom:25px;
+}
+
+.tabs button{
+background:#eee;
+}
+
+.tabs button.active{
+background:#111;
+color:white;
+}
+
+.room-card{
+background:white;
+padding:25px;
+border-radius:12px;
+box-shadow:0 10px 25px rgba(0,0,0,0.05);
+max-width:500px;
+}
+
+.price{
+font-weight:700;
+margin:12px 0;
+}
+
+/* AMENITIES */
+
+.amenities{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:20px;
+}
+
+.amenity{
+background:white;
+padding:25px;
+border-radius:12px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,0.05);
+font-weight:500;
+}
+
+/* GALLERY */
+
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+.gallery .placeholder:hover{
+transform:scale(1.04);
+transition:.3s;
+}
+
+/* CONTACT */
+
+.contact-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+
+form input,form textarea{
+width:100%;
+padding:12px;
+margin-bottom:12px;
+border-radius:8px;
+border:1px solid #ddd;
+}
+
+/* WHATSAPP FLOAT */
+
+.whatsapp{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#25D366;
+color:white;
+padding:14px 18px;
+border-radius:30px;
+text-decoration:none;
+font-weight:600;
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* SCROLL ANIMATION */
+
+.fade{
+opacity:0;
+transform:translateY(40px);
+transition:all .6s ease;
+}
+
+.fade.show{
+opacity:1;
+transform:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav id="navbar">
+
+<div class="logo">The Nest</div>
+
+<div class="menu-toggle" id="menuToggle">☰</div>
+
+<ul class="nav-links" id="navLinks">
+<li><a href="#rooms">Rooms</a></li>
+<li><a href="#amenities">Amenities</a></li>
+<li><a href="#gallery">Gallery</a></li>
+<li><a href="#location">Location</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+
+</nav>
+
+<section class="hero fade">
+
+<h1>Your Comfortable PG Living</h1>
+
+<p>
+A premium co-living space designed for students and professionals seeking comfort, safety, and community.
+</p>
+
+<div class="cta">
+<button class="primary">View Rooms</button>
+<button class="secondary">WhatsApp Inquiry</button>
+</div>
+
+</section>
+
+<section id="rooms" class="fade">
+
+<h2>Rooms</h2>
+
+<div class="tabs">
+<button class="tab active" data-room="single">Single</button>
+<button class="tab" data-room="double">Double</button>
+<button class="tab" data-room="triple">Triple</button>
+</div>
+
+<div id="roomContent"></div>
+
+</section>
+
+<section id="amenities" class="fade">
+
+<h2>Amenities</h2>
+
+<div class="amenities">
+
+<div class="amenity">📶 WiFi</div>
+<div class="amenity">🧺 Laundry</div>
+<div class="amenity">🍽 Food</div>
+<div class="amenity">🔒 Security</div>
+<div class="amenity">🧹 Housekeeping</div>
+<div class="amenity">🚗 Parking</div>
+
+</div>
+
+</section>
+
+<section id="gallery" class="fade">
+
+<h2>Gallery</h2>
+
+<div class="gallery">
+
+<div class="placeholder">GALLERY IMAGE</div>
+<div class="placeholder">GALLERY IMAGE</div>
+<div class="placeholder">GALLERY IMAGE</div>
+<div class="placeholder">GALLERY IMAGE</div>
+<div class="placeholder">GALLERY IMAGE</div>
+<div class="placeholder">GALLERY IMAGE</div>
+
+</div>
+
+</section>
+
+<section id="location" class="fade">
+
+<h2>Location</h2>
+
+<iframe
+width="100%"
+height="300"
+style="border:0;border-radius:10px"
+loading="lazy"
+src="https://maps.google.com/maps?q=kolkata&t=&z=13&ie=UTF8&iwloc=&output=embed">
+</iframe>
+
+<ul style="margin-top:15px;">
+<li>5 min from Metro Station</li>
+<li>10 min from University</li>
+<li>Nearby supermarkets</li>
+<li>Easy public transport</li>
+</ul>
+
+</section>
+
+<section id="contact" class="fade">
+
+<h2>Contact</h2>
+
+<div class="contact-grid">
+
+<div>
+<p><strong>Phone:</strong> +91 XXXXX XXXXX</p>
+<p><strong>Email:</strong> hello@thenest.com</p>
+<p><strong>WhatsApp:</strong> Instant chat available</p>
+</div>
+
+<form>
+<input placeholder="Your Name">
+<input placeholder="Phone Number">
+<textarea rows="4" placeholder="Your Message"></textarea>
+<button class="primary">Send Inquiry</button>
+</form>
+
+</div>
+
+</section>
+
+<a class="whatsapp" href="#">WhatsApp</a>
+
+<script>
+
+/* NAVBAR BLUR */
+
+window.addEventListener("scroll",()=>{
+const nav=document.getElementById("navbar");
+if(window.scrollY>20){
+nav.classList.add("blur");
+}else{
+nav.classList.remove("blur");
+}
+});
+
+/* MOBILE MENU */
+
+const toggle=document.getElementById("menuToggle");
+const links=document.getElementById("navLinks");
+
+toggle.onclick=()=>{
+links.classList.toggle("active");
+};
+
+/* ROOM TABS */
+
+const rooms={
+single:`
+<div class="room-card">
+<div class="placeholder">ROOM PHOTO</div>
+<p>Private single room perfect for focused living.</p>
+<ul>
+<li>Attached bathroom</li>
+<li>Study desk</li>
+<li>High speed WiFi</li>
+</ul>
+<div class="price">₹9,000 / month</div>
+<button class="secondary">WhatsApp Booking</button>
+</div>
+`,
+
+double:`
+<div class="room-card">
+<div class="placeholder">ROOM PHOTO</div>
+<p>Comfortable double sharing room.</p>
+<ul>
+<li>Shared wardrobe</li>
+<li>Study tables</li>
+<li>Daily housekeeping</li>
+</ul>
+<div class="price">₹6,000 / month</div>
+<button class="secondary">WhatsApp Booking</button>
+</div>
+`,
+
+triple:`
+<div class="room-card">
+<div class="placeholder">ROOM PHOTO</div>
+<p>Affordable triple sharing room.</p>
+<ul>
+<li>Spacious layout</li>
+<li>Storage space</li>
+<li>WiFi included</li>
+</ul>
+<div class="price">₹4,500 / month</div>
+<button class="secondary">WhatsApp Booking</button>
+</div>
+`
+};
+
+const content=document.getElementById("roomContent");
+content.innerHTML=rooms.single;
+
+document.querySelectorAll(".tab").forEach(btn=>{
+btn.addEventListener("click",()=>{
+document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+content.innerHTML=rooms[btn.dataset.room];
+});
+});
+
+/* SCROLL ANIMATIONS */
+
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add("show");
+}
+});
+},{threshold:0.2});
+
+document.querySelectorAll(".fade").forEach(el=>{
+observer.observe(el);
+});
+
+</script>
+
+</body>
+</html>
